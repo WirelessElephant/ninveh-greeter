@@ -1,5 +1,24 @@
+@font-face {
+  font-family: 'Chapaza';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./Chapaza.ttf')
+}
+
+@font-face {
+  font-family: 'Chapaza Italic';
+  font-style: italic;
+  font-weight: 400;
+  src: url('./Chapaza\ Italic.ttf')
+}
+
+html {
+  background-color: cornsilk;
+}
+
 .App {
-  text-align: center;
+  font-family: 'Chapaza';
+  padding: 0.5rem 1rem;
 }
 
 .App-logo {
