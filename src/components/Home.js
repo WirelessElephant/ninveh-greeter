@@ -4,11 +4,13 @@ import { isNull } from 'lodash';
 import { Button } from './Controls/Buttons'
 
 import BookSearch from './Books/BookSearch';
+import PersonBookList from './Person/PersonBookList'
 
 const NavStates = [
     null,
     'authorSearch',
-    'popularity'
+    'popularity',
+    'personBookList'
 ]
 
 function renderActivePane (navState) {
@@ -17,6 +19,9 @@ function renderActivePane (navState) {
     }
     if (navState === NavStates[1] || navState === NavStates[2]) {
         return <BookSearch searchMethod={navState}></BookSearch>
+    }
+    if (navState === NavStates[3]) {
+        return <PersonBookList></PersonBookList>
     }
 }
 
@@ -40,6 +45,11 @@ function Home (props) {
                     active={(nav === NavStates[2])}
                     onClick={() => setNav(NavStates[2])}>
                     Popularity Search
+                </Button>
+                <Button 
+                    active={(nav === NavStates[3])}
+                    onClick={() => setNav(NavStates[3])}>
+                    Your List
                 </Button>
             </div>
             {renderActivePane(nav)}

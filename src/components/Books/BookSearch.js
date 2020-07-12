@@ -3,8 +3,9 @@ import { debounce } from 'lodash';
 import Api from '../../services/NinvehApi';
 import React, { useState, useEffect } from 'react';
 
-import BookList from "./BookList"
+import BookItem from "./BookItem"
 
+import CoreApi from '../../services/Core'
 
 async function SearchAuthor(searchValue, updateFunc) {
     if (searchValue) {
@@ -26,20 +27,27 @@ async function SearchFrequency(searchValue, updateFunc) {
 
 const debouncedAuthorSearch = debounce((value, bookUpdate) => {
     return SearchAuthor(value, bookUpdate)
-}, 200)
+}, 400)
 
 const debouncedFrequencySearch = debounce((value, bookUpdate) => {
     return SearchFrequency(value, bookUpdate)
-}, 200)
+}, 400)
 
 function BookSearch(props) {
     const [books, setBooks] = useState([])
     const [searchStr, setSearchStr] = useState('')
 
+    const bookActions = [{
+        'name': 'Add',
+        'action': book => {
+            CoreApi.addBookToList(book)
+        }
+    }]
+
     function getBookList () {
         return books.map(book => {
             return (
-                <BookList key={book.id} book={book}></BookList>
+                <BookItem key={book.id} book={book} bookActions={bookActions}></BookItem>
             )
         })
     }
