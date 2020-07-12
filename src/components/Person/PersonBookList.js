@@ -21,15 +21,22 @@ function PersonBookList (props) {
         })
     }, [])
 
-
-    return (
-        <div>
-            {books.length && books.map(book => {
+    function getList () {
+        if (books.length) { 
+            return books.map(book => {
                 return <BookItem 
                     key={book.id}
                     book={book}
                     bookActions={bookActions}></BookItem>
-            })}
+            })
+        } else {
+            return <b>Your list is empty <span aria-label="sad-emoji" role="img">😢</span></b>
+        }
+    }
+
+    return (
+        <div>
+            {getList()}
         </div>
     )
 }
