@@ -11,6 +11,7 @@ function BookItem (props) {
             return props.bookActions.map(bookAction => {
                 return ( <Button 
                     key={bookAction.name} 
+                    color={bookAction.color}
                     onClick={() => bookAction.action(props.book) }>
                         {bookAction.name}
                 </Button> )

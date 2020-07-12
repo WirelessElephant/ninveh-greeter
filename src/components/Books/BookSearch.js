@@ -1,4 +1,5 @@
-import { debounce } from 'lodash';
+import { debounce, isPlainObject } from 'lodash';
+
 
 import Api from '../../services/NinvehApi';
 import React, { useState, useEffect } from 'react';
@@ -36,18 +37,42 @@ const debouncedFrequencySearch = debounce((value, bookUpdate) => {
 function BookSearch(props) {
     const [books, setBooks] = useState([])
     const [searchStr, setSearchStr] = useState('')
+    const [bookList, setBookList] = useState({})
 
-    const bookActions = [{
-        'name': 'Add',
-        'action': book => {
-            CoreApi.addBookToList(book)
+    useEffect(() => {
+        CoreApi.getPersonBookList().then(bookList => {
+            setBookList(bookList)
+        })
+    }, [books])
+
+    function getBookActions (book) {
+        if (!isPlainObject(bookList)) {
+            return []
         }
-    }]
+        if (bookList.books.map(book => book.id).includes(book.id)) {
+            return [{
+                'name': 'Remove',
+                'action': async book => {
+                    const newList = await CoreApi.removeBookFromList(book)
+                    setBookList(newList)
+                },
+                'color': 'lightcoral'
+            }]
+        } else {
+            return [{
+                'name': 'Add',
+                'action': async book => {
+                    const newList = await CoreApi.addBookToList(book)
+                    setBookList(newList)
+                },
+            }]
+        }
+    }
 
     function getBookList () {
         return books.map(book => {
             return (
-                <BookItem key={book.id} book={book} bookActions={bookActions}></BookItem>
+                <BookItem key={book.id} book={book} bookActions={getBookActions(book)}></BookItem>
             )
         })
     }

@@ -16,8 +16,13 @@ async function _initializeNewUser () {
         name: generatedName
     })
 
+    const listResponse = await Api.post(`booklist/`, {
+        owner: personResponse.data.id
+    })
+
+    sessionStorage.setItem(`person${personResponse.data.id}BookList`, JSON.stringify(listResponse.data))
     localStorage.setItem('personId', personResponse.data.id)
-    sessionStorage.setItem('personObj', personResponse.data)
+    sessionStorage.setItem('personObj', JSON.stringify(personResponse.data))
     return personResponse.data
 }
 
@@ -136,7 +141,6 @@ async function addBookToList (book) {
     sessionStorage.setItem(`person${annotatedBookList.owner}BookList`, JSON.stringify(annotatedBookList))
     
     return annotatedBookList
-
 
 }
 

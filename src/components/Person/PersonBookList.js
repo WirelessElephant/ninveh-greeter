@@ -11,7 +11,8 @@ function PersonBookList (props) {
             const newBookList = await CoreApi.removeBookFromList(book)
             updateBookList(newBookList.books)
         },
-        'name': 'Remove'
+        'name': 'Remove',
+        'color': 'lightcoral'
     }]
 
     useEffect(() => {
@@ -24,7 +25,10 @@ function PersonBookList (props) {
     return (
         <div>
             {books.length && books.map(book => {
-                return <BookItem key={book.id} book={book} bookActions={bookActions}></BookItem>
+                return <BookItem 
+                    key={book.id}
+                    book={book}
+                    bookActions={bookActions}></BookItem>
             })}
         </div>
     )
